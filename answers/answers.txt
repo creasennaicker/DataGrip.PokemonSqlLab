@@ -1,0 +1,86 @@
+pt.2
+
+What are all the types of pokemon that a pokemon can have?
+
+SELECT * FROM types;
+
+
+What is the name of the pokemon with id 45?
+
+SELECT name FROM pokemons WHERE id = 45;
+
+How many pokemon are there?
+
+SELECT COUNT(name) FROM pokemons;
+
+
+How many types are there?
+
+SELECT COUNT(name)
+FROM types;
+
+
+How many pokemon have a secondary type?
+
+SELECT COUNT(secondary_type) FROM pokemons;
+
+__________________________________________________________________________
+
+pt.3
+
+
+What is each pokemon's primary type?
+
+
+SELECT name, primary_type FROM Pokemon;
+
+
+What is Rufflet's secondary type?
+
+
+SELECT types.name as secondary_type
+FROM pokemons 
+JOINS types on pokemons.secondary_type = types.id
+WHERE pokemons.name = 'Rufflet';
+
+
+
+What are the names of the pokemon that belong to the trainer with trainerID 303?
+
+Select p.name as pokemon_name from pokemon p join pokemon_trainer pt on p.id = pt.pokemon_id where pt.trainerID = 303;
+
+
+How many pokemon have a secondary type Poison
+
+
+
+What are all the primary types and how many pokemon have that type?
+
+
+
+
+How many pokemon at level 100 does each trainer with at least one level 100 pokemone have? 
+
+(Hint: your query should not display a trainer
+
+
+from pokemon_trainer where trainerID IN (select trainerID from pokemon_trainer  where pokelevel = 100) and pokelevel = 100;
+
+
+How many pokemon only belong to one trainer and no other?
+
+select pokemon_id, count(trainerID) from pokemon_trainer group by pokemon_id having count(trainerid) = 1;
+
+
+Pt 4.
+
+#Sort the data by finding out which trainer has the strongest pokemon so that this will act as a ranking of strongest to weakest trainer. You may interpret strongest in whatever way you want, but you will have to explain your decision.
+
+
+
+
+select p.name as 'Pokemon Name', tr.trainername as 'Trainer Name', pt.pokelevel as 'Level', ty.name as 'Primary Name', tys.name as 'Secondary Name' from pokemon_trainer pt
+    inner join pokemons p on pt.pokemon_id = p.id
+        inner join trainers tr on pt.trainerID = tr.trainerID
+            left join types ty on p.primary_type = ty.id
+              left join types tys on p.secondary_type = tys.id;
